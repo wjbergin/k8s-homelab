@@ -2,9 +2,10 @@
 
 ```
 
-docker build -t jenkins:0.0.1 .
-kind load docker-image jenkins:0.0.1
+
 kind create cluster --name jenkins
+docker build -t jenkins:0.0.1 .
+kind load docker-image jenkins:0.0.1 --name jenkins
 
 k create ns jenkins
 k config set-context --current --namespace=jenkins
