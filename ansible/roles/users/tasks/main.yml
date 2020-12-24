@@ -1,0 +1,40 @@
+---
+
+- name: Change root password
+  user: 
+    name: pi
+    password: "{{ root_password }}"
+
+- name: Add deployment user
+  user:
+    name: deploy
+    password: "{{ deploy_user_password }}"
+    shell: /bin/bash
+    append: yes
+
+- name: Add authorized keys for deploy user
+  authorized_key: 
+    user: deploy 
+    state: present
+    manage_dir: yes
+    key: "{{ lookup('file', '/root/pi.pub') }}" # pi.pub is mounted into container
+
+- name: Add deploy user to sudoers
+  lineinfile: dest=/etc/sudoers
+    regexp="deploy ALL"
+    line="deploy ALL=(ALL) ALL"
+    state=present
+
+- name: Disallow password authentication
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PasswordAuthentication"
+              line="PasswordAuthentication no"
+              state=present
+  notify: Restart ssh
+
+- name: Disallow root login
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PermitRootLogin"
+              line="PermitRootLogin no"
+              state=present
+  notify: Restart ssh
