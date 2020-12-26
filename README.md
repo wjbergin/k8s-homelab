@@ -1,6 +1,6 @@
 # K8s Home Lab
 
-This repo sets up a Kubernetes cluster on a cluster of Rasberry PI 4B SBCs for experimenting with Devops tools.
+This repo sets up a Kubernetes cluster using one or more Rasberry PI 4B SBCs for experimenting with Devops tools.
 
 ## Requirements
 
