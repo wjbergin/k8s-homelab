@@ -12,3 +12,8 @@ This repo sets up a Kubernetes cluster using one or more Rasberry PI 4B SBCs for
 ## Ansible Playbooks
 
 The PI cluster is configured with a collection of Ansible playbooks.
+
+
+## K3s Cluster Configuration
+
+- Traefik is enabled by default
