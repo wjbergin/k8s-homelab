@@ -3,7 +3,7 @@ FROM python:3.8.0-buster
 RUN apt-get update && apt-get install -y vim jq sshpass curl net-tools \
     && curl -sLS https://dl.get-arkade.dev | sh \
     && curl -sLSf https://inletsctl.inlets.dev | sh \
-    && pip install ansible passlib \
+    && pip install ansible passlib ansible-lint[community] \
     && ark get helm \
     && ark get kubectl \
     && ark get doctl \

@@ -3,21 +3,9 @@
 - name: Base Setup
   hosts: k3s_cluster
   become: yes
-  gather_facts: yes
-  remote_user: pi
+  gather_facts: false
+  remote_user: deploy
   roles:
-    - { role: common, tags: ["common"] }
-    - { role: users, tags: ["users"] }
-  vars_prompt:
-    - name: root_password
-      prompt: Enter password for root user?
-      private: yes
-      encrypt: sha512_crypt
-      confirm: yes
-      salt_size: 7
-    - name: deploy_user_password
-      prompt: Enter password for deployment user?
-      private: yes
-      encrypt: sha512_crypt
-      confirm: yes
-      salt_size: 7
+    - { role: common, tags: ["common", "base" ] }
+    - { role: hostname, tags: ["hostname", "base"] }
+

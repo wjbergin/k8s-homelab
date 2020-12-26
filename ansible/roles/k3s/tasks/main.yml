@@ -20,8 +20,6 @@
 
 - name: Join nodes
   shell: "k3sup join --ip {{ item }} --server-ip {{ server_ip }} --user {{ user }} --ssh-key {{ ansible_ssh_private_key_file }}"
-  with_items: nodes
+  with_items: "{{ nodes }}"
   when: len(nodes) > 0
   delegate_to: 127.0.0.1
-  tags:
-    - nodes

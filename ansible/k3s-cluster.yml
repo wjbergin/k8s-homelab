@@ -1,6 +1,6 @@
 ---
 
-- name: k3s cluster
+- name: K3s cluster
   hosts: k3s_cluster
   gather_facts: yes
   become: yes
@@ -8,5 +8,16 @@
   roles:
     - { role: raspbian, tags: ["raspbian"] }
     - { role: k3s, tags: ["k3s"] }
-    # - { role: exit-server }
+    - { role: exit-server }
+
+
+- name: K3s exit server
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - { role: exit-server, tags: ["exit-server"] }
+  vars_prompt:
+    - name: do_access_token
+      prompt: Enter Digital Ocean access token.
+      private: yes
 

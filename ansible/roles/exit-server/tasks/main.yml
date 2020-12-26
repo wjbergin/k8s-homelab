@@ -1,6 +1,5 @@
 ---
 
-
 - name: Create exit server
   shell: |
     inletsctl create \

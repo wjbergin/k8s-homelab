@@ -1,13 +1,35 @@
 ---
 
-- name: Set the hostname
-  become: yes
-  command: hostnamectl set-hostname "{{ hostname }}"
+- debug:
+    var: new_hostname
 
-- name: Update /etc/hosts with new hostname
-  become: yes
+- name: Change the hostname to our standard
+  hostname:
+    name="{{ new_hostname }}"
+  when: ansible_fqdn != ansible_ssh_host
+
+- name: restart machine
+  command: shutdown -r now "Ansible updates triggered"
+  async: 0
+  poll: 0
+  ignore_errors: True
+  when:
+    reboot is defined
+
+- name: Waiting for server to come back up
+  wait_for: host="{{ new_hostname }}" port=22 state=started
+  delegate_to: localhost
+
+- name: Fix /etc/hosts removing the old hostname
   lineinfile:
-    dest: /etc/hosts
-    regexp: "^127.0.1.1\traspberrypi$"
-    line: "127.0.1.1\t{{ hostname }}"
-    state: present
+    state=present
+    dest=/etc/hosts
+    line="{{ ansible_default_ipv4.address }} {{ new_hostname }} {{ ansible_hostname }}"
+    regexp="^{{ ansible_default_ipv4.address }}"
+  when:
+    ansible_fqdn != new_hostname
+
+- name: Validate ansible_fqdn == new_hostname
+  assert:
+    that:
+      ansible_fqdn == new_hostname

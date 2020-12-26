@@ -17,7 +17,7 @@
     user: deploy
     state: present
     manage_dir: yes
-    key: "{{ lookup('file', '/root/pi.pub') }}" # pi.pub is mounted into container
+    key: "{{ lookup('file', deploy_user_ssh_key_path ) }}"
 
 - name: Add deploy user to sudoers
   lineinfile:
