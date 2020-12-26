@@ -1,9 +1,10 @@
+---
+
 required_packages:
   - ufw
-  - fail2ban
-  - unattended-upgrades
-  - apt-transport-https
-  - ca-certificates
+  # - fail2ban
+  # - unattended-upgrades
+  # - apt-transport-https
   - curl
-  - gnupg-agent
-  - software-properties-common
+  # - gnupg-agent
+  # - software-properties-common

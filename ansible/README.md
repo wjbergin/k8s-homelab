@@ -4,8 +4,14 @@
 
 ```
 docker build -t ansible .
-docker run --rm -it -v ${PWD}/:/var/ansible -v ${HOME}/.ssh/pi.pub:/root/pi.pub ansible bash
+docker run --rm -it -v ${PWD}/:/var/ansible -v ${HOME}/.ssh/pi:/root/.ssh/pi -v ${HOME}/.ssh/pi.pub:/root/.ssh/pi.pub ansible bash
 ```
 
-`ansible-playbook k3s-on-pi.yml --ask-pass -vvv`
+## Initial configuration
+
+`ansible-playbook k3s-cluster.yml -vv`
+
+## k3s cluster
+
+`ansible-playbook k3s-cluster.yml -vv`
 

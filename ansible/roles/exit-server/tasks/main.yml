@@ -1,0 +1,9 @@
+---
+
+
+- name: Create exit server
+  shell: |
+    inletsctl create \
+      --provider digitalocean \
+      --region="{{ do_region }}" \
+      --access-token "{{ do_access_token }}"
