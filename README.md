@@ -13,7 +13,8 @@ This repo sets up a Kubernetes cluster on one or more Rasberry PI 4B SBCs for ex
 
 The PI cluster is configured with a collection of Ansible playbooks.
 
-- `ansible-playbook initial-setup.yml --ask-pass -vv`
+- `ansible-playbook ssh.yml --ask-pass -vv`
+- `ansible-playbook initial-setup.yml -vv`
 - `ansible-playbook k3s-cluster.yml -vv`
 
 
@@ -21,7 +22,7 @@ TODO: playbook for base cluster configuration
  - certificate-manager
  - TLS
  
-TODO: playbook for inlets exit server setup
+TODO: fix inletsctl digitalocean size option
 
 ## K3s Cluster Configuration
 
