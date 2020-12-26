@@ -11,4 +11,4 @@ This repo sets up a Kubernetes cluster using one or more Rasberry PI 4B SBCs for
 
 ## Ansible Playbooks
 
-After flashing the SD cards with Raspbian Lite, the cluster of PIs is configured with a collection of Ansible playbooks.
+The PI cluster is configured with a collection of Ansible playbooks.
