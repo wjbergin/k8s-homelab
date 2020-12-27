@@ -27,3 +27,8 @@
     path: /usr/sbin/ip6tables-legacy
     name: ip6tables
   register: ip6_legacy
+
+- name: Expand filesystem to fill disk
+  command: raspi-config --expand-rootfs
+  notify:
+    - Rebooting on Raspbian

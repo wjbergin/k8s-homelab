@@ -2,9 +2,10 @@
 
 required_packages:
   - ufw
+  - curl
+  - vim
   # - fail2ban
   # - unattended-upgrades
   # - apt-transport-https
-  - curl
   # - gnupg-agent
   # - software-properties-common

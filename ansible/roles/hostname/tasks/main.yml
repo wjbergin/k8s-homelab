@@ -3,31 +3,42 @@
 - debug:
     var: new_hostname
 
+- debug:
+    var: ansible_fqdn
+
+- debug: 
+    var: ansible_ssh_host
+
+- name:
+  set_fact:
+    original: "{{ ansible_fqdn }}"
+
 - name: Change the hostname to our standard
   hostname:
-    name="{{ new_hostname }}"
-  when: ansible_fqdn != ansible_ssh_host
+    name: "{{ new_hostname }}"
+  when: ansible_fqdn != new_hostname
+  register: task_result
 
 - name: restart machine
-  command: shutdown -r now "Ansible updates triggered"
-  async: 0
+  shell: "sleep 5 && reboot"
+  async: 1
   poll: 0
-  ignore_errors: True
-  when:
-    reboot is defined
+  when: task_result is changed
 
 - name: Waiting for server to come back up
-  wait_for: host="{{ new_hostname }}" port=22 state=started
-  delegate_to: localhost
+  wait_for_connection:
+    delay: 10
+    connect_timeout: 20
+    sleep: 5
+    timeout: 300
+  when: task_result is changed
 
-- name: Fix /etc/hosts removing the old hostname
+- name: Update /etc/hosts
   lineinfile:
-    state=present
-    dest=/etc/hosts
-    line="{{ ansible_default_ipv4.address }} {{ new_hostname }} {{ ansible_hostname }}"
-    regexp="^{{ ansible_default_ipv4.address }}"
-  when:
-    ansible_fqdn != new_hostname
+    state: present
+    dest: /etc/hosts
+    regexp: '^127\.0\.1\.1\t+raspberrypi'
+    line: '127.0.1.1 {{ new_hostname }}'
 
 - name: Validate ansible_fqdn == new_hostname
   assert:

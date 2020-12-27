@@ -4,5 +4,5 @@
   shell: |
     inletsctl create \
       --provider digitalocean \
-      --region="{{ do_region }}" \
-      --access-token "{{ do_access_token }}"
+      --region="{{ linode_region }}" \
+      --access-token "{{ linode_access_token }}"

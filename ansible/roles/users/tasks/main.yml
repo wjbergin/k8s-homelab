@@ -19,6 +19,9 @@
     manage_dir: yes
     key: "{{ lookup('file', deploy_user_ssh_key_path ) }}"
 
+# Deploy user has passwordless sudo access, because the k3sup tools to create 
+# k3s cluster does not support providing a password
+
 - name: Add deploy user to sudoers
   lineinfile:
     dest: /etc/sudoers

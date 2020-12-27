@@ -1,0 +1,9 @@
+---
+
+- name: Allow scheduling pods on master node
+  command: kubectl taint node --all node-role.kubernetes.io/master:NoSchedule-
+  delegate_to: 127.0.0.1
+
+- name: Install cert-manager
+  command: ark install cert-manager
+  delegate_to: 127.0.0.1
