@@ -1,0 +1,33 @@
+---
+
+- name: ssh Setup
+  gather_facts: yes
+  remote_user: pi
+  roles:
+    - role: users
+  vars_prompt:
+    - name: root_password
+      prompt: Enter new password for root user?
+      private: yes
+      encrypt: sha512_crypt
+      confirm: yes
+      salt_size: 7
+    - name: deploy_user_password
+      prompt: Enter new password for deployment user?
+      private: yes
+      encrypt: sha512_crypt
+      confirm: yes
+      salt_size: 7
+
+- name: Common Setup
+  gather_facts: true
+  roles:
+    - role: common
+    - role: hostname
+
+- name: k3s Installation
+  gather_facts: true
+  roles:
+    - role: raspbian
+    - role: k3s/download
+    - role: k3s/node

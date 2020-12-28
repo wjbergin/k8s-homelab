@@ -5,9 +5,8 @@ RUN apt-get update && apt-get install -y vim jq sshpass curl net-tools \
     && curl -sLSf https://inletsctl.inlets.dev | sh \
     && pip install ansible passlib ansible-lint[community] \
     && ark get helm \
-    && ark get kubectl \
-    && ark get doctl \
-    && ark get k3sup
+    && ark get kube-bench \
+    && ark get kubectl
 
 RUN helm repo add jetstack https://charts.jetstack.io
 

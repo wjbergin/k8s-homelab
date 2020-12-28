@@ -13,9 +13,14 @@ docker run --rm -it \
 
 ## Initial configuration
 
-`ansible-playbook k3s-cluster.yml -vv`
+`ansible-playbook plays/ssh.yml -vvv`
+`ansible-playbook plays/initial-setup.yml -vvv`
 
 ## k3s cluster
 
-`ansible-playbook k3s-cluster.yml -vv`
+`ansible-playbook plays/k3s-cluster.yml -vv`
+
+Add a new node to an existing cluster.
+
+`ansible-playbook -i <ip>, plays/k3s-add-node.yml -vv --extra-vars="new_hostname=node-X"`
 

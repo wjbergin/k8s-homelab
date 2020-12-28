@@ -22,7 +22,6 @@
   roles:
     - { role: k3s/node, tags: ["k3s-node"] }
 
-
 # - name: K3s exit server
 #   hosts: localhost
 #   gather_facts: false

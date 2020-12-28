@@ -38,7 +38,7 @@
     state: present
     dest: /etc/hosts
     regexp: '^127\.0\.1\.1\t+raspberrypi'
-    line: '127.0.1.1 {{ new_hostname }}'
+    line: '127.0.1.1  {{ new_hostname }}'
 
 - name: Validate ansible_fqdn == new_hostname
   assert:
