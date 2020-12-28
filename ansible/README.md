@@ -3,12 +3,12 @@
 ### k3s playbook on Raspberry PI
 
 ```
-docker build -t ansible .
+docker build -t homelab .
 docker run --rm -it \
   -v ${PWD}/:/var/ansible \
   -v ${HOME}/.ssh/pi:/root/.ssh/pi \
   -v ${HOME}/.ssh/pi.pub:/root/.ssh/pi.pub \
-  ansible bash
+  homelab bash
 ```
 
 ## Initial configuration
