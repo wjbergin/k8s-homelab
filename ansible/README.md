@@ -4,7 +4,11 @@
 
 ```
 docker build -t ansible .
-docker run --rm -it -v ${PWD}/:/var/ansible -v ${HOME}/.ssh/pi:/root/.ssh/pi -v ${HOME}/.ssh/pi.pub:/root/.ssh/pi.pub ansible bash
+docker run --rm -it \
+  -v ${PWD}/:/var/ansible \
+  -v ${HOME}/.ssh/pi:/root/.ssh/pi \
+  -v ${HOME}/.ssh/pi.pub:/root/.ssh/pi.pub \
+  ansible bash
 ```
 
 ## Initial configuration
