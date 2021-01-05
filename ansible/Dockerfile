@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y vim jq sshpass curl net-tools \
     && ark get kube-bench \
     && ark get kubectl
 
-RUN helm repo add jetstack https://charts.jetstack.io
 
 ENV PATH="${PATH}:/root/.arkade/bin/"
 WORKDIR /var/ansible

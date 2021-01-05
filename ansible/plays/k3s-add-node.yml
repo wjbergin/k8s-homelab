@@ -2,6 +2,8 @@
 
 - name: ssh Setup
   gather_facts: yes
+  hosts: "{{ target }}"
+  become: yes
   remote_user: pi
   roles:
     - role: users
@@ -20,13 +22,19 @@
       salt_size: 7
 
 - name: Common Setup
+  hosts: "{{ target }}"
   gather_facts: true
+  become: yes
+  remote_user: deploy
   roles:
     - role: common
     - role: hostname
 
 - name: k3s Installation
-  gather_facts: true
+  hosts: "{{ target }}"
+  gather_facts: false
+  become: yes
+  remote_user: deploy
   roles:
     - role: raspbian
     - role: k3s/download

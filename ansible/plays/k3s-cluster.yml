@@ -12,12 +12,14 @@
 
 - hosts: master
   remote_user: deploy
+  gather_facts: yes
   become: yes
   roles:
     - { role: k3s/master, tags: ["k3s-master"] }
 
 - hosts: node
   become: yes
+  gather_facts: yes
   remote_user: deploy
   roles:
     - { role: k3s/node, tags: ["k3s-node"] }

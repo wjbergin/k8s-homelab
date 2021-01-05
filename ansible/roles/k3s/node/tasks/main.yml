@@ -1,5 +1,38 @@
 ---
 
+- name: Set master IP
+  set_fact: 
+    master_ip: "{{ groups['master'][0] }}"
+
+- name: Register node-token file access mode
+  delegate_to: "{{ master_ip }}"
+  stat:
+    path: /var/lib/rancher/k3s/server
+  register: p
+
+- name: Change file access node-token
+  delegate_to: "{{ master_ip }}"
+  file:
+    path: /var/lib/rancher/k3s/server
+    mode: "g+rx,o+rx"
+
+- name: Read node-token from master
+  delegate_to: "{{ master_ip }}"
+  slurp:
+    src: /var/lib/rancher/k3s/server/node-token
+  register: node_token
+
+- name: Store Master node-token
+  delegate_to: "{{ master_ip }}"
+  set_fact:
+    node_token: "{{ node_token.content | b64decode | regex_replace('\n', '') }}"
+
+- name: Restore node-token file access
+  delegate_to: "{{ master_ip }}"
+  file:
+    path: /var/lib/rancher/k3s/server
+    mode: "{{ p.stat.mode }}"
+
 - name: Copy K3s service file
   template:
     src: "k3s.service.j2"
