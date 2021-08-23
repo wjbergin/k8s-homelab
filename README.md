@@ -4,7 +4,7 @@ Set up a Kubernetes cluster running k3s on one or more Rasberry PI 4Bs.
 
 ## Requirements
 
-- One or more Raspberry PI 4Bs (4GB preferred) running Raspbian Lite
+- One or more Raspberry PI 4Bs (4GB+ preferred) running Raspbian Lite
 - Linode account and API token in order to provide external access to local K8s cluster using [Inlets](https://github.com/inlets/inlets)
 
 ## Ansible Playbooks
