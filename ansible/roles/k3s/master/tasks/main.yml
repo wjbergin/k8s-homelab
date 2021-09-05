@@ -51,7 +51,7 @@
     owner: "{{ ansible_user }}"
     mode: "u=rwx,g=rx,o="
 
-- name: Copy config file to user home directory
+- name: Copy kube config file to user home directory
   copy:
     src: /etc/rancher/k3s/k3s.yaml
     dest: ~{{ ansible_user }}/.kube/config
@@ -59,10 +59,10 @@
     owner: "{{ ansible_user }}"
     mode: "u=rw,g=,o="
 
-- name: Replace https://localhost:6443 by https://master-ip:6443
+- name: Replace https://localhost:6443 by https://k3s-master:6443
   command: >-
     k3s kubectl config set-cluster default
-      --server=https://{{ master_ip }}:6443
+      --server=https://k3s-master:6443
       --kubeconfig ~{{ ansible_user }}/.kube/config
   changed_when: true
 
@@ -74,11 +74,11 @@
   tags:
     - fetch-kubeconfig
 
-- name: Update config with master IP address
+- name: Update config with master hostname
   replace:
     path: ./kubeconfig
     regexp: 'https:\/\/127\.0\.0\.1:6443'
-    replace: 'https://{{ master_ip }}:6443'
+    replace: 'https://k3s-master:6443'
   delegate_to: 127.0.0.1
   tags:
     - fetch-kubeconfig

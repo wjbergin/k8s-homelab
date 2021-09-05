@@ -4,6 +4,23 @@
   command: kubectl taint node --all node-role.kubernetes.io/master:NoSchedule-
   delegate_to: 127.0.0.1
 
-- name: Install cert-manager
-  command: ark install cert-manager
+- name: Install required infrastructure services
+  command: ark install "{{ item }}"
   delegate_to: 127.0.0.1
+  with_items:
+    - cert-manager
+    - traefik2
+    - docker-registry
+    - nfs-provisioner
+    # - inlets-operator
+    # - tekton
+    # - jenkins
+    # - argocd
+
+- name: Install docker registry ingress
+  command: >-
+    arkade install docker-registry-ingress \
+    --email "{{ registry_email }}"  \
+    --domain "{{ registry_domain }}" \
+    --ingress-class traefik
+

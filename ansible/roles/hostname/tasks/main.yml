@@ -1,22 +1,22 @@
 ---
 
 - debug:
-    var: new_hostname
+    var: hostname
 
 - debug:
     var: ansible_fqdn
 
-- debug: 
+- debug:
     var: ansible_ssh_host
 
 - name:
   set_fact:
     original: "{{ ansible_fqdn }}"
 
-- name: Change the hostname to our standard
+- name: Change the hostname
   hostname:
-    name: "{{ new_hostname }}"
-  when: ansible_fqdn != new_hostname
+    name: "{{ hostname }}"
+  when: ansible_fqdn != hostname
   register: task_result
 
 - name: restart machine
@@ -38,9 +38,9 @@
     state: present
     dest: /etc/hosts
     regexp: '^127\.0\.1\.1\t+raspberrypi'
-    line: '127.0.1.1  {{ new_hostname }}'
+    line: '127.0.1.1  {{ hostname }}'
 
-- name: Validate ansible_fqdn == new_hostname
+- name: Validate ansible_fqdn == hostname
   assert:
     that:
       ansible_fqdn == new_hostname

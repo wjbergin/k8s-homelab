@@ -1,0 +1,26 @@
+---
+
+- vars:
+    hostname: k3s-master
+
+  tasks:
+  - include: ssh.yml
+
+  - name: Common Setup
+    hosts: "{{ target }}"
+    gather_facts: true
+    become: yes
+    remote_user: deploy
+    roles:
+      - role: common
+      - role: hostname
+
+  - name: k3s Installation
+    hosts: "{{ target }}"
+    gather_facts: false
+    become: yes
+    remote_user: deploy
+    roles:
+      - role: raspbian
+      - role: k3s/download
+      - role: k3s/master

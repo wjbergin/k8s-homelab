@@ -1,25 +1,6 @@
 ---
 
-- name: ssh Setup
-  gather_facts: yes
-  hosts: "{{ target }}"
-  become: yes
-  remote_user: pi
-  roles:
-    - role: users
-  vars_prompt:
-    - name: root_password
-      prompt: Enter new password for root user?
-      private: yes
-      encrypt: sha512_crypt
-      confirm: yes
-      salt_size: 7
-    - name: deploy_user_password
-      prompt: Enter new password for deployment user?
-      private: yes
-      encrypt: sha512_crypt
-      confirm: yes
-      salt_size: 7
+- include: ssh.yml
 
 - name: Common Setup
   hosts: "{{ target }}"
@@ -39,3 +20,7 @@
     - role: raspbian
     - role: k3s/download
     - role: k3s/node
+  vars_prompt:
+    - name: hostname
+      prompt: Hostname for k3s worker node?
+      private: no
