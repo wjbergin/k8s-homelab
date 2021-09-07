@@ -1,22 +1,39 @@
 ---
 
-- vars:
-    hostname: k3s-master
-
-  tasks:
-  - include: ssh.yml
+  - name: SSH Setup
+    hosts: "{{ target_host | default('master') }}"
+    become: yes
+    gather_facts: yes
+    remote_user: pi
+    roles:
+      - { role: users, tags: ["users"] }
+    vars_prompt:
+      - name: root_password
+        prompt: Enter new password for root user?
+        private: yes
+        encrypt: sha512_crypt
+        confirm: yes
+        salt_size: 7
+      - name: deploy_user_password
+        prompt: Enter new password for deployment user?
+        private: yes
+        encrypt: sha512_crypt
+        confirm: yes
+        salt_size: 7
 
   - name: Common Setup
-    hosts: "{{ target }}"
+    hosts: "{{ target_host | default('master') }}"
     gather_facts: true
     become: yes
     remote_user: deploy
+    vars:
+      hostname: k3s-master
     roles:
       - role: common
       - role: hostname
 
   - name: k3s Installation
-    hosts: "{{ target }}"
+    hosts: "{{ target_host | default('master') }}"
     gather_facts: false
     become: yes
     remote_user: deploy
@@ -24,3 +41,4 @@
       - role: raspbian
       - role: k3s/download
       - role: k3s/master
+

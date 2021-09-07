@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+
+  k3s-ansible:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: k3s-ansible
+    command: bash
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/var/ansible
+      - ${HOME}/.ssh/pi.pub:/root/.ssh/pi.pub
+      - ${HOME}/.ssh/pi:/root/.ssh/pi
+    environment:
+      - DIGITAL_OCEAN_TOKEN=${DIGITAL_OCEAN_TOKEN}
+
